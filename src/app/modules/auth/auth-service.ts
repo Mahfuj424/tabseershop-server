@@ -1,10 +1,15 @@
-
 import config from "../../config";
 import { User } from "../user/user-model";
 import jwt from "jsonwebtoken";
 
-const logInUserIntoDB = async (email: string, password: string) => {
-  const user = await User.findOne({ email, password });
+const logInUserIntoDB = async (email?: string, phone?: string) => {
+  if (!email && !phone) {
+    return null; // Email & phone দুটোই null হলে কিছু করা হবে না
+  }
+
+  const user = await User.findOne({
+    $or: [{ email }, { phone }],
+  });
 
   if (!user) {
     return null;
@@ -16,7 +21,7 @@ const logInUserIntoDB = async (email: string, password: string) => {
     email: user.email,
     phone: user.phone,
     address: user.address,
-    image:user.image
+    image: user.image,
   };
 
   // Create token and send to the user

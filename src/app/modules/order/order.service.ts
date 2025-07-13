@@ -48,7 +48,7 @@ const getUserOrders = async (userId: string) => {
 };
 
 const getAllOrders = async () => {
-  return await Order.find().populate("products.product");
+  return await Order.find().populate("products.product").populate('user');
 };
 
 export const OrderService = { createOrder, getUserOrders, getAllOrders };

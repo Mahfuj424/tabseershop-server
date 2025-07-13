@@ -12,22 +12,19 @@ const createProductIntoDB = async (payload: IProduct) => {
 const getAllProducts = async (filters: any) => {
   const query: any = {};
 
-  // Filtering by category (if category is a direct property of Product model)
+
   if (filters.category) {
-    query.category = { $regex: filters.category, $options: "i" }; // Case-insensitive search
+    query.category = { $regex: filters.category, $options: "i" };
   }
 
-  // Filtering by menu (exact match for 'men' or 'women')
   if (filters.menu) {
-    query.menu = { $regex: `^${filters.menu}$`, $options: "i" }; // Exact match for 'men' or 'women'
+    query.menu = { $regex: `^${filters.menu}$`, $options: "i" }; 
   }
 
-  // Filtering by product name (case-insensitive search)
   if (filters.name) {
     query.name = { $regex: filters.name, $options: "i" };
   }
 
-  // Filtering by price range
   if (filters.minPrice || filters.maxPrice) {
     query.price = {};
     if (filters.minPrice) query.price.$gte = Number(filters.minPrice);
@@ -36,7 +33,7 @@ const getAllProducts = async (filters: any) => {
 
   // Sorting based on price or other criteria
   const sortOption: any = {};
-  if (filters.sortOrder === "desc") {
+  if (filters.sortOrder === "desc") { 
     sortOption.price = -1;
   } else {
     sortOption.price = 1;

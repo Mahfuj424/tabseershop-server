@@ -4,10 +4,10 @@ import { z } from "zod";
 const UserValidationSchema = z.object({
   body: z
     .object({
-      name: z.string().nonempty({ message: "Name is required" }),
+      name: z.string().optional(),
       email: z.string().email({ message: "Invalid email address" }).optional(),
       phone: z.string().optional(),
-      password: z.string().nonempty({ message: "Password is required" }),
+      password: z.string().optional(),
       address: z.string().optional(),
       image: z.string().optional(), // Image can be optional
     })

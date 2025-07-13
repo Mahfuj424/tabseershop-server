@@ -5,14 +5,22 @@ import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 const logInUser = catchAsync(async (req, res, next) => {
-  const body = req.body;
+  const { email, phone } = req.body;
+  // Check if both email and phone are missing
+  if (!email && !phone) {
+    return sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: "Email or phone number is required.",
+      data: [],
+    });
+  }
 
-  const { email, password } = body;
-
-  const result = await AuthServices.logInUserIntoDB(email, password);
+  // Call the service to log in user
+  const result = await AuthServices.logInUserIntoDB(email, phone);
 
   if (!result) {
-    sendResponse(res, {
+    return sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
       success: false,
       message: "No Data Found",
@@ -20,12 +28,12 @@ const logInUser = catchAsync(async (req, res, next) => {
     });
   }
 
-  sendResponse(res, {
+  return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "User logged in successfully",
-    token: result?.token,
-    data:result?.data
+    token: result.token,
+    data: result.data,
   });
 });
 

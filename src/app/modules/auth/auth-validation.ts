@@ -5,7 +5,6 @@ const loginValidation = z.object({
     .object({
       email: z.string().email({ message: "Invalid email address" }).optional(),
       phone: z.string().optional(),
-      password: z.string().nonempty({ message: "Password is required" }),
     })
     .refine((data) => data.email || data.phone, {
       message: "Either email or phone number is required",

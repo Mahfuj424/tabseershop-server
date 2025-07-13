@@ -30,7 +30,6 @@ export const createProduct = catchAsync(async (req, res, next) => {
 // Get All Products with Filtering, Sorting, & Pagination
 export const getProducts = catchAsync(async (req, res, next) => {
   const filters = req.query; // Query params for filtering
-  console.log("filters names", filters)
 
   const result = await ProductServices.getAllProducts(filters);
 
